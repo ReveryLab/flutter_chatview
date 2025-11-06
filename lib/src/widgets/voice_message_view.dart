@@ -149,7 +149,7 @@ class _VoiceMessageViewState extends State<VoiceMessageView> {
     );
   }
 
-  void _playOrPause() {
+  Future<void> _playOrPause() async {
     assert(
       defaultTargetPlatform == TargetPlatform.iOS ||
           defaultTargetPlatform == TargetPlatform.android,
@@ -158,9 +158,10 @@ class _VoiceMessageViewState extends State<VoiceMessageView> {
     if (playerState.isInitialised ||
         playerState.isPaused ||
         playerState.isStopped) {
-      controller.startPlayer(finishMode: FinishMode.pause);
+      await controller.setFinishMode(finishMode: FinishMode.pause);
+      await controller.startPlayer();
     } else {
-      controller.pausePlayer();
+      await controller.pausePlayer();
     }
   }
 }
